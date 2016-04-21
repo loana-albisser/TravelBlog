@@ -1,0 +1,10 @@
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
+.myfloater {
+    line-height: 150px;
+}
+.vcenter{
+    vertical-align: middle;
+}
