@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
     <link rel="stylesheet" type="text/css" href="../css/TravelBlog.css">
 
 </head>
@@ -12,15 +13,16 @@
     <div class="jumbotron">
         <h1>Blogtitel</h1>
         <p>Kurzbeschreibung</p>
-        <button type="button" class="btn btn-default pull-right" id="addTravelEntry">Blogeintrag hinzufügen</button>
+        <button type="button" id="addTravelEntry" class="btn btn-default pull-right" >Blogeintrag hinzufügen</button>
+        </br>
     </div>
     </br>
     <div class="travel-entry">
         <div class="well well-sm">
             <strong>Tag 1 Asienrundreise 13.05.2015</strong>
             <div class="btn-group vcenter">
-                <button type="button" class="glyphicon glyphicon-pencil btn btn-link"></button>
-                <button type="button" class="glyphicon glyphicon-trash btn btn-link"></button>
+                <button type="button" class="glyphicon glyphicon-pencil btn btn-link" id="editButton"></button>
+                <button type="button" class="glyphicon glyphicon-trash btn btn-link" id="deleteButton"></button>
             </div>
 
         </div>
@@ -32,7 +34,7 @@
         <div class="well well-sm">
             <strong>Tag 2 Asienrundreise 14.05.2015</strong>
             <div class="btn-group vcenter">
-                <button type="button" class="glyphicon glyphicon-pencil btn btn-link"></button>
+                <button type="button" class="glyphicon glyphicon-pencil btn btn-link" ></button>
                 <button type="button" class="glyphicon glyphicon-trash btn btn-link"></button>
             </div>
         </div>
@@ -40,8 +42,18 @@
         </br>
         <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet</p>
     </div>
+    <div id="deleteDialog" title="Löschen">
+        <div>
+            <form method="post" action="?page=login">
+                <p>Wollen Sie den Eintrag wirklich löschen?</p>
+                <button type="button" id="dialogYes">Ja</button>
+                <button type="button" id="dialogNo" >Nein</button>
+            </form>
+        </div>
+    </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
 <script src="../js/TravelBlogEntry.js"></script>
 </body>
 </html>

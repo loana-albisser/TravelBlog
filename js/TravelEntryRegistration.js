@@ -3,16 +3,18 @@
  */
 $(document).ready(function(){
 
-    $(function () {
-        $("#saveDialog").dialog({
-            autoOpen: false,
-        });
-        $("#save").click(function () {
-            $("#saveDialog").dialog("open");
-        })
+    $("#saveDialog").dialog({ autoOpen: false });
 
+    $("#save").click(
+        function () {
+            $("#saveDialog").dialog('open');
+            return false;
+        }
+    );
+
+    $("#saveOk").click(function () {
+        document.location.href = "TravelBlogEntry.html"
     })
-
 
 
 });
