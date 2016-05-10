@@ -89,7 +89,49 @@ class dbAdapter {
         return $user;
     }
 
+    /** @var tblog $tblog
+     * @return integer $insertID
+     */
+    function insertBlog($tblog){
+        $insertID = -1;
+        $query = "INSERT INTO '".self::TABLE_BLOG."'('".self::COLUMN_TITEL."', '".self::COLUMN_DESCRIPTION."', '".
+            self::COLUMN_DESTINATION."', '".self::COLUMN_STARTDATE."')
+            VALUES ('".$tblog->titel."', '".$tblog->description."', '".$tblog->destination."', '".$tblog->startdate."')";
+        $result = $this->conn->real_query($query);
+        if($result){
+            $insertID = $this->conn->insert_id;
+        }
+        return $insertID;
+    }
 
+    /** @var tbuser $user
+     * @return integer */
+    function insertUser($user){
+        $insertID = -1;
+        $query = "INSERT INTO '".self::TABLE_USER."'('".self::COLUMN_FIRSTNAME."', '".self::COLUMN_LASTNAME."', '".
+            self::COLUMN_EMAIL."', '".self::COLUMN_PW."', '".self::COLUMN_REG_DATE."')
+            VALUES ('".$user->firstname."', '".$user->lastname."', '".$user->email."', '".$user->pw."', '".$user->reg_Date."')";
+        $result = $this->conn->real_query($query);
+        if($result){
+            $insertID = $this->conn->insert_id;
+        }
+        return $insertID;
+    }
+
+    /** @var tblogentry $tblogentry
+     * @return integer $insertID
+     */
+    function insertBlogEntry($tblogentry){
+        $insertID = -1;
+        $query = "INSERT INTO '".self::TABLE_BLOG_ENTRY."'('".self::COLUMN_BLOGID."', '".self::COLUMN_TITEL."', '".
+            self::COLUMN_PICTURE."', '".self::COLUMN_DESCRIPTION."', '".self::COLUMN_CREATEDATE."')
+            VALUES ('".$tblogentry->blogid."', '".$tblogentry->titel."', '".$tblogentry->picture."', '".$tblogentry->description."', '".$tblogentry->createdate."')";
+        $result = $this->conn->real_query($query);
+        if($result){
+            $insertID = $this->conn->insert_id;
+        }
+        return $insertID;
+    }
 
     private function execQuerySingleResult($resultSet, $class){
         return $resultSet->fetch_object($class);
