@@ -6,7 +6,7 @@ $(document).ready(function(){
     $("#addTravelEntry").click(function() {
         document.location.href = "TravelEntryRegistration.html";
     });
-    
+
     $("#editButton").click(function () {
         document.location.href = "TravelEntryRegistration.html"
     });
@@ -18,15 +18,19 @@ $(document).ready(function(){
             return true;
         }
     );
-    
+
     $("#dialogYes").click(function () {
-        
+
     });
-    
+
     $("#dialogNo").click(function () {
         $("#deleteDialog").dialog('close');
     })
-    
+
+    /*$("#editButton").hide();
+     $("#deleteButton").hide();
+     $("#addTravelEntry").hide();*/
+
 
 
 });
