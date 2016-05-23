@@ -2,6 +2,7 @@
  * Created by Loana on 21.04.2016.
  */
 $(document).ready(function(){
+    var logedIn = false;
 
     $("#addTravelEntry").click(function() {
         document.location.href = "TravelEntryRegistration.html";
@@ -9,6 +10,7 @@ $(document).ready(function(){
 
     $("#editButton").click(function () {
         document.location.href = "TravelEntryRegistration.html"
+        updateBlogEntry();
     });
 
     $("#deleteDialog").dialog({ autoOpen: false });
@@ -20,16 +22,35 @@ $(document).ready(function(){
     );
 
     $("#dialogYes").click(function () {
-
+        deleteBlogEntry();
     });
 
     $("#dialogNo").click(function () {
         $("#deleteDialog").dialog('close');
     })
 
-    /*$("#editButton").hide();
-     $("#deleteButton").hide();
-     $("#addTravelEntry").hide();*/
+    if (logedIn){
+        $("#editButton").show();
+        $("#deleteButton").show();
+        $("#addTravelEntry").show();
+    } else {
+        $("#editButton").hide();
+        $("#deleteButton").hide();
+        $("#addTravelEntry").hide();
+    }
+    
+    function loadBlogEntries() {
+        
+    }
+    
+    function updateBlogEntry() {
+        
+    }
+    
+    function deleteBlogEntry() {
+        
+    }
+
 
 
 

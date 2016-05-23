@@ -14,7 +14,12 @@ $(document).ready(function(){
 
     $("#saveOk").click(function () {
         document.location.href = "TravelBlogEntry.html"
+        saveBlogEntry();
     })
+    
+    function saveBlogEntry() {
+        
+    }
 
 
 });

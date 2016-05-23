@@ -12,4 +12,6 @@ class tblog{
     var $description;
     var $destination;
     var $startdate;
+    
+    
 }
