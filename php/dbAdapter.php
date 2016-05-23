@@ -133,6 +133,50 @@ class dbAdapter {
         return $insertID;
     }
 
+    /**
+     * @param $tbuser tbuser
+     * @return boolean
+     */
+    function updateUser($tbuser){
+        $sql = "UPDATE ".self::TABLE_USER." SET ".self::COLUMN_FIRSTNAME." ='".$tbuser->firstname."', "
+            .self::COLUMN_LASTNAME."='".$tbuser->lastname."', ".self::COLUMN_EMAIL."='".$tbuser->email."', "
+            .self::COLUMN_PW."='".$tbuser->pw."', ".self::COLUMN_REG_DATE."='".$tbuser->reg_Date."' WHERE "
+            .self::COLUMN_ID."=".$tbuser->id;
+        return $this->conn->query($sql);
+    }
+
+    /**
+     * @param $tblog tblog
+     * @return boolean
+     */
+    function updateBlog($tblog){
+        $sql = "UPDATE ".self::TABLE_BLOG." SET ".self::COLUMN_TITEL." ='".$tblog->titel."', "
+            .self::COLUMN_DESCRIPTION."='".$tblog->description."', ".self::COLUMN_DESTINATION."='".$tblog->destination."', "
+            .self::COLUMN_STARTDATE."='".$tblog->startdate."' WHERE "
+            .self::COLUMN_ID."=".$tblog->id;
+        return $this->conn->query($sql);
+    }
+
+    /**
+     * @param $tblogentry tblogentry
+     * @return boolean TRUE if updated successfully
+     */
+    function updateBlogEntry($tblogentry){
+        $sql = "UPDATE ".self::TABLE_BLOG_ENTRY." SET ".self::COLUMN_TITEL." ='".$tblogentry->titel."', "
+            .self::COLUMN_PICTURE."='".$tblogentry->picture."', ".self::COLUMN_DESCRIPTION."='".$tblogentry->createdate."', WHERE "
+            .self::COLUMN_ID."=".$tblogentry->id;
+        return $this->conn->query($sql);
+    }
+
+    /**
+     * give tablename by constvalues
+     * @param $tablename string
+     * @param $id integer
+     */
+    function deleteEntry($tablename, $id){
+        $sql = " DELETE FROM ".$tablename." WHERE ".self::COLUMN_ID."=".$id;
+    }
+
     private function execQuerySingleResult($resultSet, $class){
         return $resultSet->fetch_object($class);
     }
