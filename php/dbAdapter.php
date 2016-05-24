@@ -176,7 +176,7 @@ class dbAdapter {
      * @param $id integer
      */
     function deleteEntry($tablename, $id){
-        $sql = " DELETE FROM ".$tablename." WHERE ".self::COLUMN_ID."=".$id;
+        $sql = " DELETE FROM ".$tablename." WHERE ".self::COLUMN_ID."=".$id;        
     }
 
     private function execQuerySingleResult($resultSet, $class){

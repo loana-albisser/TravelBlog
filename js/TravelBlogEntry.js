@@ -2,7 +2,11 @@
  * Created by Loana on 21.04.2016.
  */
 $(document).ready(function(){
-    var logedIn = false;
+    var logedIn = true;
+    window.onload = function () {
+        blogEntry.loadBlogEntries();
+    }
+    
 
     $("#addTravelEntry").click(function() {
         document.location.href = "TravelEntryRegistration.html";
@@ -10,7 +14,7 @@ $(document).ready(function(){
 
     $("#editButton").click(function () {
         document.location.href = "TravelEntryRegistration.html"
-        updateBlogEntry();
+        blogEntry.updateBlogEntry();
     });
 
     $("#deleteDialog").dialog({ autoOpen: false });
@@ -22,7 +26,8 @@ $(document).ready(function(){
     );
 
     $("#dialogYes").click(function () {
-        deleteBlogEntry();
+        blogEntry.deleteBlogEntry();
+
     });
 
     $("#dialogNo").click(function () {
@@ -38,18 +43,41 @@ $(document).ready(function(){
         $("#deleteButton").hide();
         $("#addTravelEntry").hide();
     }
-    
-    function loadBlogEntries() {
+
+    var blogEntry = {
+        loadBlogEntries: function () {
+            //alert("loadEntries");
+            $("#title").load('../php/ajax.php',{id:"getBlogEntries", blogId:1},function(responseTxt, statusTxt, xhr){
+                if(statusTxt == "success")
+                    alert("External content loaded successfully!");
+                if(statusTxt == "error")
+                    alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });            
+        },
         
-    }
-    
-    function updateBlogEntry() {
+        updateBlogEntry: function(){
+            
+        },
         
+        deleteBlogEntry: function(){
+            alert("deleted");
+            $.ajax({
+                 type: 'post',
+                 url: '../php/ajax.php',
+                 data: {id:"deleteBlogEntries", blogEntryId:15},
+                 error: function (jqXHR, exception) {
+                    alert(jqXHR.status);
+                 },
+                 success:function (result) {
+                    alert(result.toString());
+                     $("#deleteDialog").dialog('close');
+                 }
+             });
+        }
+
+
     }
-    
-    function deleteBlogEntry() {
-        
-    }
+     
 
 
 

@@ -3,10 +3,10 @@
  */
 $(document).ready(function(){
     var loggedIn= true;
+    blogOverview.loadblog();
 
     $("#editButton").click(function () {
-        document.location.href = "TravelRegistration.html"
-        updateBlog();
+        blogOverview.updateBlog();
     });
 
     $("#title").click(function () {
@@ -24,7 +24,6 @@ $(document).ready(function(){
     $("#startDate").click(function () {
         document.location.href = "TravelBlogEntry.html"
     });
-
 
     $("#deleteDialog").dialog({
         autoOpen: false
@@ -50,7 +49,7 @@ $(document).ready(function(){
     );
 
     $("#dialogYes").click(function () {
-        deleteBlog();
+        blogOverview.deleteBlog();
     });
 
     $("#dialogNo").click(function () {
@@ -68,39 +67,67 @@ $(document).ready(function(){
         $("#addBlogg").hide();
     }
 
-   
-    function loadBlogs() {
-        /*$("#blogTable tr").remove();
-         $("#blogTable tbody").append('<tr class="child"><td>Titel</td><td>Ziel</td><td>Kurzbeschreibung</td><td>Startdatum</td><td>Dauer</td></tr>');
-         for (var i=0; i< entry ;i++){
+    var blogOverview = {
+        loadblog: function () {
+            $.ajax({
+                type: 'post',
+                url: '../php/ajax.php',
+                data: {id:"insertBlogEntry", blogid:1,title:$("#title").val(),createdate:$("#date").val(),photo:$("#photo").val(),description:$("#description").val()},
+                error: function (jqXHR, exception) {
+                    alert(jqXHR.status);
+                },
+                success:function (result) {
+                    alert(result.toString());
+                    if ($statement == "save"){
+                        document.location.assign("TravelBlogEntry.html");
+                    } else if ($statement == "next"){
+                        $("#entryForm").reset();
+                        //document.getElementById("entryForm").reset();
+                    }
+
+                }
+            });
+            /*$("#blogTable tr").remove();
+             $("#blogTable tbody").append('<tr class="child"><td>Titel</td><td>Ziel</td><td>Kurzbeschreibung</td><td>Startdatum</td><td>Dauer</td></tr>');
+             for (var i=0; i< entry ;i++){
              ('<tr class="child">' +
-                 '<td>'+r.users[i].id+
-                 '</td><td>'+r.users[i].name+
-                 '</td><td>'+r.users[i].last_activity+
-                 '</td><td>'+r.users[i].online+
-                 '</td><td>'+r.users[i].registered+'</td>' +
+             '<td>'+r.users[i].id+
+             '</td><td>'+r.users[i].name+
+             '</td><td>'+r.users[i].last_activity+
+             '</td><td>'+r.users[i].online+
+             '</td><td>'+r.users[i].registered+'</td>' +
              '</tr>');
-         }*/
-        var xhttp;
-        //var dbAdapter = new dbAdapter();
-        xhttp = new XMLHttpRequest();
-        if (xhttp.readyState == 4 && xhttp.status == 200){
+             }*/
+        },
 
+        updateBlog:function () {
+            $("#titleBlogRegistration").load('../php/ajax.php',{id:"getBlogById", blogId:1},function(responseTxt, statusTxt, xhr){
+                if(statusTxt == "success")
+                    alert("External content loaded successfully!");
+                    document.location.href = "TravelRegistration.html"
+                if(statusTxt == "error")
+                    alert("Error: " + xhr.status + ": " + xhr.statusText);
+            });
+        },
+
+        deleteBlog:function () {
+
+            alert("deleted");
+            $.ajax({
+                type: 'post',
+                url: '../php/ajax.php',
+                data: {id:"deleteBlog", blogid:1},
+                error: function (jqXHR, exception) {
+                    alert(jqXHR.status);
+                },
+                success:function (result) {
+                    alert(result.toString());
+                    $("#deleteDialog").dialog('close');
+                }
+            });
         }
-        xhttp.open("GET","tblogEntry.php",true);
-        xhttp.send();
-        //var tblog = new tblog();
-        
-    }
-        
-    function deleteBlog() {
-        
-    };
-    
-    function updateBlog(){
-        
-    };
 
+    }
 
 
 });
