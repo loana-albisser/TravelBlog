@@ -6,6 +6,6 @@
  * Time: 13:13
  */
 
-include 'tblog.php';
-include 'tblogentry.php';
-include 'tbuser.php';
+include_once 'tblog.php';
+include_once 'tblogentry.php';
+include_once 'tbuser.php';

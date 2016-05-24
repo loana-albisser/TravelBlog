@@ -5,9 +5,7 @@
  * Date: 23.05.2016
  * Time: 06:40
  */
-include 'tblog.php';
-include 'tblogentry.php';
-include 'tbuser.php';
+include_once 'ClassImports.php';
 include 'dbAdapter.php';
 
 /*try{
@@ -30,17 +28,21 @@ include 'dbAdapter.php';
 } catch (Exception $e){
     die(json_encode(array('error' => $e->getMessage())));
 }*/
-    $response = $_GET['id'];
+    $response = $_POST['id'];
+    $insertID = -1;
     switch ($response){
         case 'insertBlog':
             $tblog = new tblog();
-            $tblog ->title = $_POST['title'];
+            $tblog ->titel = $_POST['title'];
             $tblog ->description= $_POST['description'];
             $tblog ->destination= $_POST['destination'];
-            $tblog ->date = $_POST['startdate'];
-            $response= dbAdapter::insertBlog($tblog);
+            $tblog ->startdate = $_POST['startdate'];
+            $dbAdapter = new dbAdapter();
+            $dbAdapter->connect();
+            $insertID = $dbAdapter->insertBlog($tblog);
+            $dbAdapter->disconnect();
             break;
             
     }
-
+echo print_r($_POST);
 ?>
