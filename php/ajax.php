@@ -10,14 +10,18 @@ include 'tblogentry.php';
 include 'tbuser.php';
 include 'dbAdapter.php';
 
-try{
+/*try{
     $response = array();
 
     switch ($_GET['action']){
         case 'insertBlog':
-            $response= dbAdapter::insertBlog($_POST['tblog']);
+            $tblog = new tblog();
+            $tblog ->title = $_POST['title'];
+            $tblog ->description= $_POST['description'];
+            $tblog ->destination= $_POST['destination'];
+            $tblog ->date = $_POST['startdate'];
+            $response= dbAdapter::insertBlog($tblog);
             break;
-        case 'id':
             
         default:
             throw new Exception('Wrong Action');
@@ -25,5 +29,18 @@ try{
     echo json_encode($response);
 } catch (Exception $e){
     die(json_encode(array('error' => $e->getMessage())));
-}
+}*/
+    $response = $_GET['id'];
+    switch ($response){
+        case 'insertBlog':
+            $tblog = new tblog();
+            $tblog ->title = $_POST['title'];
+            $tblog ->description= $_POST['description'];
+            $tblog ->destination= $_POST['destination'];
+            $tblog ->date = $_POST['startdate'];
+            $response= dbAdapter::insertBlog($tblog);
+            break;
+            
+    }
+
 ?>

@@ -5,49 +5,53 @@
 
 $(document).ready(function(){
 
-    $.blogPOST = function(action,data,callback){
-        $.post('php/ajax.php?action='+action,data,callback,'json');
-    }
-
-    $.blogGET = function(action,data,callback){
-        $.get('php/ajax.php?action='+action,data,callback,'json');
-    }
+    
 
     $("#continue").click(function() {
+        //alert("test");
         blogReg.saveBlog();
         document.location.href = "TravelEntryRegistration.html";
 
     });
-});
 
     var blogReg = {
         saveBlog: function () {
-            var title = $("#title").val();
-            var date = $("#date").val();
-            var duration = $("#duration").val();
-            var description = $("#shortDescription").val();
-            tblog = new tblog();
-            $.blogPOST('insertBlog',tblog, function () {
+             /*setTimeout(function () {
+                 $.ajax({
+                 type: 'post',
+                 url: 'php/ajax.php',
+                 async: true,
+                 data: {id:"insertBlog",title:$("#title").val(),description:$("#shortDescription").val(),destination:$("#destination"),startdate:$("#startdate").val()},
+                 error: function(xhr) {
+                    alert("An error occured: " + xhr.status + " " + xhr.statusText);
+                }
+             });
+             }, 10); *//// You may need to adjust this to a longer delay.
+            $.ajax({
+                type: 'post',
+                url: 'php/ajax.php',
+                data: {id:"insertBlog",title:$("#title").val(),description:$("#shortDescription").val(),destination:$("#destination"),startdate:$("#startdate").val()},
+                error: function() {
+                    alert("An error occured");
+                },
+                success:function () {
+                    alert("saved!")
+                }
 
-         });
-    /*var dbAdapter = new $dbAdapter();
-     var tblog = new tblog();
-     $.ajax({
-     url: 'php/dbAdapter.php?function=insertBlog',
-     type: 'post',
-     data: { "insertBlog": "1"},
-     success: function(response) { console.log(response); }
-     });
-     //alert(title);
-     var xhttp;
-     xhttp = new XMLHttpRequest();
-     if (xhttp.readyState == 4 && xhttp.status == 200){
 
-     }
-     xhttp.open("GET","tblog.php",true);
-     xhttp.send();*/
-}
+             });
+        }
+    }
+});
+
+    
+
+    /*function blogPOST(action,data,callback){
+        $.post('php/ajax.php?action='+action,data,callback,'json');
     }
     
+    function blogGET(action,data,callback){
+        $.get('php/ajax.php?action='+action,data,callback,'json');
+    }*/
 
 
