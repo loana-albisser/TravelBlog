@@ -1,0 +1,15 @@
+{
+  "name": "travelBlog/travelBlog",
+  "description": "TravelBlog",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "author's name",
+      "email": "email@example.com"
+    }
+  ],
+  "require":{
+    "slim/slim": "2.*"
+  }
+}
