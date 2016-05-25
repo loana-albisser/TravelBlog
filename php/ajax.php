@@ -40,7 +40,7 @@ include 'dbAdapter.php';
             $dbAdapter = new dbAdapter();
             $dbAdapter->connect();
             $blogId = $_POST["blogid"];
-            //$insertID = $dbAdapter->de($tblogentry);
+            $insertID = $dbAdapter->deleteEntry($dbAdapter::TABLE_BLOG,$tblogentry);
             $dbAdapter->disconnect();
         case 'updateBlog':
             $dbAdapter = new dbAdapter();
@@ -84,7 +84,7 @@ include 'dbAdapter.php';
             $dbAdapter = new dbAdapter();
             $dbAdapter->connect();
             $blogEntryId = $_POST["blogEntryId"];
-            $insertID = $dbAdapter->deleteEntry($blogEntryId);
+            $insertID = $dbAdapter->deleteEntry($dbAdapter::TABLE_BLOG_ENTRY,$blogEntryId);
             $dbAdapter->disconnect();
             break;
         case  'updateBlogEntry':
