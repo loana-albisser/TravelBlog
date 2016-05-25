@@ -7,8 +7,9 @@
  */
 include_once 'ClassImports.php';
 include 'dbAdapter.php';
-
+    
     $response = $_POST['id'];
+
     //$insertID = -1;
     $insertID = array();
     switch ($response){
@@ -40,8 +41,9 @@ include 'dbAdapter.php';
             $dbAdapter = new dbAdapter();
             $dbAdapter->connect();
             $blogId = $_POST["blogid"];
-            $insertID = $dbAdapter->deleteEntry($dbAdapter::TABLE_BLOG,$tblogentry);
+            $insertID = $dbAdapter->deleteEntry($dbAdapter::TABLE_BLOG,$blogId);
             $dbAdapter->disconnect();
+            break;
         case 'updateBlog':
             $dbAdapter = new dbAdapter();
             $dbAdapter->connect();
@@ -49,6 +51,7 @@ include 'dbAdapter.php';
             $tblog = $dbAdapter -> getBlogByID($blogId);
             $insertID = $dbAdapter->updateBlog($tblog);
             $dbAdapter->disconnect();
+            break;
         case 'insertBlogEntry':
             $tblogentry = new tblogentry();
             $tblogentry ->blogid = $_POST['blogid'];

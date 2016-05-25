@@ -5,7 +5,7 @@ $(document).ready(function(){
     var loggedIn= true;
 
     window.onload = function () {
-        blogOverview.loadblog();
+        loadblog();
     }
 
 
@@ -52,16 +52,24 @@ $(document).ready(function(){
     });
 
     $("#blogTable").on('click',"#editButton", function () {
-        blogOverview.updateBlog();
+        updateBlog();
     });
 
-    $("#blogTable").on('click',"#deleteButton", function () {
-            $("#deleteDialog").dialog('open');
+    $("#blogTable").on('click',  function (event) {
+        var split_array = $(event.target).attr("id").split("_");
+        var id = split_array[split_array.length-1];
+        if($(event.target).attr("id").contains("deleteButton_")) {
+            $("#deleteDialog").data("id", id).dialog('open');
             return false;
+        }
     });
 
-    $("#dialogYes").click(function () {
-        blogOverview.deleteBlog();
+
+
+
+    $("#dialogYes").click(function (event) {
+
+        deleteBlog($("#deleteDialog").data("id"));
         $("#deleteDialog").dialog('close');
     });
 
@@ -77,11 +85,13 @@ $(document).ready(function(){
         //$("#addBlogg").hide();
     }
 
-    var blogOverview = {
 
-        loadblog: function () {
+
+
+
+        function loadblog  () {
             $.ajax({
-                type: 'get',
+                type: 'post',
                 url: '../php/ajax.php',
                 data: {id:"getAllBlogs"},
                 error: function (jqXHR, exception) {
@@ -90,23 +100,25 @@ $(document).ready(function(){
                 success:function (result) {
                     alert(result.toString());
                     alert("getAllBlogs");
-                    //$("#blogtable tr").remove();
+                    $("#blogTable tbody").empty();
                     $("#blogTable tbody").append('<tr class="child"><td>Titel</td><td>Ziel</td><td>Kurzbeschreibung</td><td>Startdatum</td><td> </td><td> </td></tr>');
                     var blogs = [];
                     alert (result);
-                    for (var i=0; i<result.length;i++){
+                    var response = JSON.parse(result);
+                    alert(response[0]["titel"]);
+                    for (var i=0; i<response.length;i++){
                         //alert("fill table entries");
                             $("#blogTable tbody").append(
-                                /*'<tr class="child"><td>'+ response['titel']+
-                                '</td><td>'+response['destination']+
-                                '</td><td>'+response['description']+
-                                '</td><td>'+response['startdate']+'</td></tr>'*/
-                                '<tr class="child"><td id="title">'+ 'titel'+
+                                '<tr class="child"><td>'+ response[i]['titel']+
+                                '</td><td>'+response[i]['destination']+
+                                '</td><td>'+response[i]['description']+
+                                '</td><td>'+response[i]['startdate']+
+                                /*'<tr class="child"><td id="title">'+ 'titel'+
                                 '</td><td id="destination">'+'destination'+
                                 '</td><td id="description">'+'description'+
-                                '</td><td id="startDate">'+'startdate'+
+                                '</td><td id="startDate">'+'startdate'+*/
                                 '</td><td id="editButton">'+'<button type="button" class="glyphicon glyphicon-pencil btn btn-link"></button>'+
-                                '</td><td id="deleteButton">'+'<button type="button" class="glyphicon glyphicon-trash btn btn-link"></button>'+'</td></tr>'
+                                '</td><td id="deleteButton">'+'<button id="deleteButton_'+response[i]["id"]+'" type="button" class="glyphicon glyphicon-trash btn btn-link" ></button>'+'</td></tr>'
 
                             );
                     }
@@ -114,30 +126,31 @@ $(document).ready(function(){
 
                 }
             });
-        },
+        }
 
-        updateBlog:function () {
+    function updateBlog () {
             alert("update!");
             document.location.assign("TravelRegistration.html");
-        },
+        }
 
-        deleteBlog:function () {
-            alert("deleted");
+    function deleteBlog(id) {
+
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',
-                data: {id:"deleteBlog", blogid:1},
+                data: {id:"deleteBlog", blogid:id},
                 error: function (jqXHR, exception) {
                     alert(jqXHR.status);
                 },
                 success:function (result) {
-                    alert(result.toString());
                     $("#deleteDialog").dialog('close');
+                    loadblog();
                 }
             });
         }
 
-    }
+
+
 
 
 });
