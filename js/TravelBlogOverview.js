@@ -3,27 +3,11 @@
  */
 $(document).ready(function(){
     var loggedIn= true;
-    blogOverview.loadblog();
 
-    $("#editButton").click(function () {
-        blogOverview.updateBlog();
-    });
+    window.onload = function () {
+        blogOverview.loadblog();
+    }
 
-    $("#title").click(function () {
-        document.location.href = "TravelBlogEntry.html"
-    });
-    $("#destination").click(function () {
-        document.location.href = "TravelBlogEntry.html"
-    });
-    $("#shortDescription").click(function () {
-        document.location.href = "TravelBlogEntry.html"
-    });
-    $("#duration").click(function () {
-        document.location.href = "TravelBlogEntry.html"
-    });
-    $("#startDate").click(function () {
-        document.location.href = "TravelBlogEntry.html"
-    });
 
     $("#deleteDialog").dialog({
         autoOpen: false
@@ -37,7 +21,7 @@ $(document).ready(function(){
     );
 
     $("#addBlogg").click(function () {
-        document.location.href = "TravelRegistration.html"
+        document.location.assign("TravelRegistration.html");
     });
 
     $("#loginDialog").dialog({ autoOpen: false });
@@ -48,8 +32,37 @@ $(document).ready(function(){
         }
     );
 
+
+    $("#blogTable").on('click',"#title", function () {
+        alert ("title");
+        document.location.assign("TravelBlogEntry.html");
+    });
+
+    $("#blogTable").on('click',"#destination", function () {
+        document.location.assign("TravelBlogEntry.html");
+        alert("destination");
+    });
+
+    $("#blogTable").on('click',"#shortDescription", function () {
+        document.location.assign("TravelBlogEntry.html");
+    });
+
+    $("#blogTable").on('click',"#startDate", function () {
+        document.location.assign("TravelBlogEntry.html");
+    });
+
+    $("#blogTable").on('click',"#editButton", function () {
+        blogOverview.updateBlog();
+    });
+
+    $("#blogTable").on('click',"#deleteButton", function () {
+            $("#deleteDialog").dialog('open');
+            return false;
+    });
+
     $("#dialogYes").click(function () {
         blogOverview.deleteBlog();
+        $("#deleteDialog").dialog('close');
     });
 
     $("#dialogNo").click(function () {
@@ -58,60 +71,57 @@ $(document).ready(function(){
 
     if (loggedIn){
         $("#logout").hide();
-        $("#editButton").show();
-        $("#deleteButton").show();
-        $("#addBlogg").show();
     } else {
-        $("#editButton").hide();
-        $("#deleteButton").hide();
-        $("#addBlogg").hide();
+        //$("#editButton").hide();
+        //$("#deleteButton").hide();
+        //$("#addBlogg").hide();
     }
 
     var blogOverview = {
+
         loadblog: function () {
             $.ajax({
-                type: 'post',
+                type: 'get',
                 url: '../php/ajax.php',
-                data: {id:"insertBlogEntry", blogid:1,title:$("#title").val(),createdate:$("#date").val(),photo:$("#photo").val(),description:$("#description").val()},
+                data: {id:"getAllBlogs"},
                 error: function (jqXHR, exception) {
                     alert(jqXHR.status);
                 },
                 success:function (result) {
                     alert(result.toString());
-                    if ($statement == "save"){
-                        document.location.assign("TravelBlogEntry.html");
-                    } else if ($statement == "next"){
-                        $("#entryForm").reset();
-                        //document.getElementById("entryForm").reset();
+                    alert("getAllBlogs");
+                    //$("#blogtable tr").remove();
+                    $("#blogTable tbody").append('<tr class="child"><td>Titel</td><td>Ziel</td><td>Kurzbeschreibung</td><td>Startdatum</td><td> </td><td> </td></tr>');
+                    var blogs = [];
+                    alert (result);
+                    for (var i=0; i<result.length;i++){
+                        //alert("fill table entries");
+                            $("#blogTable tbody").append(
+                                /*'<tr class="child"><td>'+ response['titel']+
+                                '</td><td>'+response['destination']+
+                                '</td><td>'+response['description']+
+                                '</td><td>'+response['startdate']+'</td></tr>'*/
+                                '<tr class="child"><td id="title">'+ 'titel'+
+                                '</td><td id="destination">'+'destination'+
+                                '</td><td id="description">'+'description'+
+                                '</td><td id="startDate">'+'startdate'+
+                                '</td><td id="editButton">'+'<button type="button" class="glyphicon glyphicon-pencil btn btn-link"></button>'+
+                                '</td><td id="deleteButton">'+'<button type="button" class="glyphicon glyphicon-trash btn btn-link"></button>'+'</td></tr>'
+
+                            );
                     }
+
 
                 }
             });
-            /*$("#blogTable tr").remove();
-             $("#blogTable tbody").append('<tr class="child"><td>Titel</td><td>Ziel</td><td>Kurzbeschreibung</td><td>Startdatum</td><td>Dauer</td></tr>');
-             for (var i=0; i< entry ;i++){
-             ('<tr class="child">' +
-             '<td>'+r.users[i].id+
-             '</td><td>'+r.users[i].name+
-             '</td><td>'+r.users[i].last_activity+
-             '</td><td>'+r.users[i].online+
-             '</td><td>'+r.users[i].registered+'</td>' +
-             '</tr>');
-             }*/
         },
 
         updateBlog:function () {
-            $("#titleBlogRegistration").load('../php/ajax.php',{id:"getBlogById", blogId:1},function(responseTxt, statusTxt, xhr){
-                if(statusTxt == "success")
-                    alert("External content loaded successfully!");
-                    document.location.href = "TravelRegistration.html"
-                if(statusTxt == "error")
-                    alert("Error: " + xhr.status + ": " + xhr.statusText);
-            });
+            alert("update!");
+            document.location.assign("TravelRegistration.html");
         },
 
         deleteBlog:function () {
-
             alert("deleted");
             $.ajax({
                 type: 'post',

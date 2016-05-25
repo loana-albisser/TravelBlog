@@ -3,7 +3,18 @@
  */
 $(document).ready(function(){
 
-    var $statement;
+    window.onload = function () {
+        var segment_str = document.referrer;
+        var segment_array = segment_str.split( '/' );
+        var last_segment = segment_array[segment_array.length - 1];
+        alert(last_segment);
+        if (last_segment == "TravelBlogEntry.html"){
+            blogEntryReg.loadBlogEntry();
+        }
+    }
+
+    $("#logout").click(function () {
+    });
 
     $("#saveDialog").dialog({ autoOpen: false });
 
@@ -13,6 +24,8 @@ $(document).ready(function(){
             return false;
         }
     );
+
+    var $statement;
 
     $("#saveOk").click(function () {
         $statement = "save";
@@ -29,7 +42,7 @@ $(document).ready(function(){
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',
-                data: {id:"insertBlogEntry", blogid:1,title:$("#title").val(),createdate:$("#date").val(),photo:$("#photo").val(),description:$("#description").val()},
+                data: {id:"insertBlogEntry", blogid:1,title:$("#titleEntryRegistration").val(),createdate:$("#dateEntryRegistration").val(),photo:$("#photoEntryRegistration").val(),description:$("#description").val()},
                 error: function (jqXHR, exception) {
                     alert(jqXHR.status);
                 },
@@ -39,19 +52,20 @@ $(document).ready(function(){
                         document.location.assign("TravelBlogEntry.html");
                     } else if ($statement == "next"){
                         $("#entryForm").reset();
-                        //document.getElementById("entryForm").reset();
                     }
 
                 }
             });
+        },
+
+        loadBlogEntry: function () {
+            $("#titleEntryRegistration").val("EntryRegistration");
         }
     }
 
 
+
+
 });
 
-/**
- * toDo hardCoded Blogid!
- * @type {{saveBlogEntry: blogEntryReg.saveBlogEntry}}
- */
 
