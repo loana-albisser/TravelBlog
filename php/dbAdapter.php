@@ -85,7 +85,12 @@ class dbAdapter {
         return $blogEntry;
     }
 
+    /**
+     * @param $id integer
+     * @return tblogentry[]
+     */
     function getAllBlogEntryByBlogID($id){
+        /** @var tblogentry[] $allBlogEntries */
         $allBlogEntries = [];
         $blogEntry = new tblogentry();
         $sql = "Select * FROM ".self::TABLE_BLOG_ENTRY." WHERE ".self::COLUMN_BLOGID." = ".$id." ORDER BY ".self::COLUMN_ID;
@@ -93,7 +98,7 @@ class dbAdapter {
         while($blogEntry = $this->execQuerySingleResult($result, tblogentry::class)) {
             $allBlogEntries[] = $blogEntry;
         }
-        return $blogEntry;
+        return $allBlogEntries;
     }
 
     function getUserByID($id){

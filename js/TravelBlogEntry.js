@@ -66,7 +66,6 @@ $(document).ready(function(){
                 },
                 success: function (result) {
                     var response = JSON.parse(result);
-
                     alert(result);
                     alert(JSON.stringify(response));
                     alert(response[0]["titel"]);
