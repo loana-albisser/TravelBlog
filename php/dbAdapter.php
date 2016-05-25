@@ -58,6 +58,23 @@ class dbAdapter {
         return $blog;
     }
 
+    /**
+     * @return tblog[]
+     */
+    function getAllBlogs(){
+        /** @var $allBlogs tblog[] */
+        $allBlogs = array();
+        $sql = "Select * FROM ".self::TABLE_BLOG;
+        $result = $this->conn->query($sql);
+        if($result->num_rows>0) {
+            while($row = $result->fetch_object(tblog::class)) {
+                /** @var $row tblog*/
+                $allBlogs[] = $row;
+            }
+        }
+        return $allBlogs;
+    }
+
     function getBlogEntryByID($id){
         $blogEntry = new tblogentry();
         $sql = "Select * FROM ".self::TABLE_BLOG_ENTRY." WHERE ".self::COLUMN_ID." = ".$id;
@@ -174,9 +191,11 @@ class dbAdapter {
      * give tablename by constvalues
      * @param $tablename string
      * @param $id integer
+     * @return boolean
      */
     function deleteEntry($tablename, $id){
-        $sql = " DELETE FROM ".$tablename." WHERE ".self::COLUMN_ID."=".$id;        
+        $sql = " DELETE FROM ".$tablename." WHERE ".self::COLUMN_ID."=".$id;
+        return $this->conn->query($sql);
     }
 
     private function execQuerySingleResult($resultSet, $class){
