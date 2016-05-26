@@ -90,6 +90,7 @@ include 'dbAdapter.php';
             $dbAdapter->connect();
             $blogEntryId = $_POST["blogEntryId"];
             $tblogEntry = $dbAdapter->getBlogEntryByID($blogEntryId);
+
             $insertID = $dbAdapter->updateBlogEntry($tblogEntry);
             $dbAdapter->disconnect();
             break;
