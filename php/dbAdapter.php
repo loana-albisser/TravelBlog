@@ -206,7 +206,8 @@ class dbAdapter {
      */
     function updateBlogEntry($tblogentry){
         $sql = "UPDATE ".self::TABLE_BLOG_ENTRY." SET ".self::COLUMN_TITEL." ='".$tblogentry->titel."', "
-            .self::COLUMN_PICTURE."='".$tblogentry->picture."', ".self::COLUMN_DESCRIPTION."='".$tblogentry->createdate."', WHERE "
+            .self::COLUMN_PICTURE."='".$tblogentry->picture."', ".self::COLUMN_DESCRIPTION."='".$tblogentry->description."',"
+            .self::COLUMN_CREATEDATE."='".$tblogentry->createdate."' WHERE "
             .self::COLUMN_ID."=".$tblogentry->id;
         return $this->conn->query($sql);
     }
