@@ -25,8 +25,8 @@ $(document).ready(function(){
         document.location.href = "TravelEntryRegistration.html";
     });
 
-    $("#editEntryButton").click(function () {
-        blogEntry.updateBlogEntry();
+    $("#editEntryButton").click(function (event) {
+        blogEntry.updateBlogEntry($(event.target).attr("name"));
         //$("#titleEntryRegistration").val("updateEntry");
     });
 
@@ -92,6 +92,7 @@ $(document).ready(function(){
                         $("#blogEntryDate").html(response[i]['createdate']);
                         $("#blogEntryDescription").removeAttr();
                         $("#blogEntryDescription").html(response[i]['description']);
+                        $("#editEntryButton").attr("name", response[i]['id']);
                     }
                 }
             });
@@ -109,6 +110,7 @@ $(document).ready(function(){
                     alert(jqXHR.status);
                 },
                 success:function (result) {
+
                     localStorage.setItem("blogEntryId",id);
                     document.location.assign("TravelEntryRegistration.html");
                 }

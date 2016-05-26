@@ -80,6 +80,7 @@ $(document).ready(function(){
         },
 
         loadBlogEntry: function (id) {
+
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',
