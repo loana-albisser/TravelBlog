@@ -123,10 +123,6 @@ $(document).ready(function(){
         },
 
     }
-
-
-
-
 });
 
 

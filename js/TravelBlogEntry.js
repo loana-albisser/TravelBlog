@@ -5,6 +5,7 @@ $(document).ready(function(){
     var logedIn = true;
     var $blogId;
     var $added;
+    var $deleteButton;
 
     window.onload = function () {
         var segment_str = document.referrer;
@@ -18,7 +19,7 @@ $(document).ready(function(){
         } else if (last_segment=="TravelBlogOverview.html"){
             $blogId = localStorage.getItem("selectedBlog");
         }
-        blogEntry.loadBlogEntries($blogId);
+        //blogEntry.loadBlogEntries($blogId);
         localStorage.setItem("Blog",$blogId);
     }
     
@@ -37,18 +38,17 @@ $(document).ready(function(){
 
     $("#deleteDialog").dialog({ autoOpen: false });
 
-    $("#deleteEntryButton").click(function () {
+    $("#deleteEntryButton").click(function (event) {
         $("#deleteDialog").dialog('open');
+            $deleteButton = $(event.target).attr("id");
             return false;
         }
     );
 
 
-    $("#dialogYes").click(function (event) {
-        alert($(event.target).attr("name"));
-        blogEntry.deleteBlogEntry($(event.target).attr("id"));
-
-
+    $("#dialogYes").click(function () {
+        blogEntry.deleteBlogEntry($deleteButton);
+        loadBlogEntries($blogId);
     });
 
     $("#dialogNo").click(function () {
