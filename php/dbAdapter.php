@@ -97,8 +97,10 @@ class dbAdapter {
         $blogEntry = new tblogentry();
         $sql = "Select * FROM ".self::TABLE_BLOG_ENTRY." WHERE ".self::COLUMN_BLOGID." = ".$id." ORDER BY ".self::COLUMN_ID;
         $result = $this->conn->query($sql);
-        while($blogEntry = $this->execQuerySingleResult($result, tblogentry::class)) {
-            $allBlogEntries[] = $blogEntry;
+        if($result->num_rows>0){
+            while($blogEntry = $result->fetch_object(tblogentry::class)) {
+                $allBlogEntries[] = $blogEntry;
+            }
         }
         return $allBlogEntries;
     }
@@ -163,9 +165,9 @@ class dbAdapter {
      */
     function insertBlogEntry($tblogentry){
         $insertID = -1;
-        $query = "INSERT INTO ".self::TABLE_BLOG_ENTRY."(".self::COLUMN_BLOGID.", ".self::COLUMN_TITEL.", ".
-            self::COLUMN_PICTURE.", ".self::COLUMN_DESCRIPTION.", ".self::COLUMN_CREATEDATE.")
-            VALUES ('".$tblogentry->blogid."', '".$tblogentry->titel."', '".$tblogentry->picture."', '".$tblogentry->description."', '".$tblogentry->createdate."')";
+        $query = "INSERT INTO ".self::TABLE_BLOG_ENTRY." (".self::COLUMN_BLOGID.", ".self::COLUMN_TITEL.", "
+            .self::COLUMN_PICTURE.", ".self::COLUMN_DESCRIPTION.", ".self::COLUMN_CREATEDATE.")
+            VALUES (".$tblogentry->blogid.", '".$tblogentry->titel."', '".$tblogentry->picture."', '".$tblogentry->description."', '".$tblogentry->createdate."')";
         $result = $this->conn->real_query($query);
         if($result){
             $insertID = $this->conn->insert_id;
@@ -181,7 +183,7 @@ class dbAdapter {
         $sql = "UPDATE ".self::TABLE_USER." SET ".self::COLUMN_FIRSTNAME." ='".$tbuser->firstname."', "
             .self::COLUMN_LASTNAME."='".$tbuser->lastname."', ".self::COLUMN_EMAIL."='".$tbuser->email."', "
             .self::COLUMN_PW."='".$tbuser->pw."', ".self::COLUMN_USERNAME."='".$tbuser->username."', "
-            .self::COLUMN_USERGROUP."=".$tbuser->usrgroup.", ".self::COLUMN_REG_DATE."='".$tbuser->reg_Date."' WHERE "
+            .self::COLUMN_USERGROUP."=".$tbuser->usrgroup." WHERE "
             .self::COLUMN_ID."=".$tbuser->id;
         return $this->conn->query($sql);
     }
