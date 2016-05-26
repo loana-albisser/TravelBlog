@@ -86,6 +86,13 @@ include 'dbAdapter.php';
             $insertID = $dbAdapter->updateBlogEntry($tblogEntry);
             $dbAdapter->disconnect();
             break;
+        case 'getBlogEntryById':
+            $dbAdapter = new dbAdapter();
+            $dbAdapter->connect();
+            $blogEntryId = $_POST["blogEntryId"];
+            $insertID = $dbAdapter->getBlogEntryByID($blogEntryId);
+            $dbAdapter->disconnect();
+            break;
         case 'login':
             $username = $_POST["username"];
             $pw = $_POST["pw"];

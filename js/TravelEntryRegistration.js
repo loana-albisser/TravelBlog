@@ -88,8 +88,10 @@ $(document).ready(function(){
                     alert(jqXHR.status);
                 },
                 success:function (result) {
+
+                    alert(result);
                     var response = JSON.parse(result);
-                    alert(result);                    
+
                     $("#titleEntryRegistration").val(response['titel']);
                     $("#dateEntryRegistration").val(response['createdate']);
                     $("#photoEntryRegistration").val(response['picture']);
