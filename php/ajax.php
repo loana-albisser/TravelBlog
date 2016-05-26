@@ -99,6 +99,41 @@ include 'dbAdapter.php';
             $dbAdapter->disconnect();
             break;
         case 'login':
+            $username = $_POST["username"];
+            $pw = $_POST["pw"];
+            $dbAdapter = new dbAdapter();
+            $dbAdapter->connect();
+            $tbuser = $dbAdapter->getUserByUsername($username);
+            $dbAdapter->disconnect();
+            if($pw == $tbuser->pw){
+                session_start();
+                session_unset();
+                session_regenerate_id(true);
+                $_SESSION['username'] = $username;
+                $_SESSION['groups'] = $tbuser->usrgroup;
+                $insertID = true;
+            }else{
+                $insertID = false;
+            }
+            break;
+        case 'auth':
+            session_start();
+            if (
+                ( ! ( isset($_SESSION['username']) && $_SESSION['username']) )
+                or ( isset($_SESSION['ip']) &&  ! $_SESSION['ip'] == $_SERVER['REMOTE_ADDR'] )
+            ) {
+                $insertID = false;
+            } else{
+                $reqgroup = $_POST["reqgroup"];
+                if($reqgroup ==-1 OR $reqgroup = $_SESSION['groups']){
+                    $insertID = true;
+                }
+            }
+            break;
+        case 'logout':
+            session_start();
+            session_destroy();
+            $insertID = true;
             break;
     }
 //echo print_r($_POST);

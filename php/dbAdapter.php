@@ -23,6 +23,8 @@ class dbAdapter {
     const COLUMN_LASTNAME = "lastname";
     const COLUMN_EMAIL = "email";
     const COLUMN_PW = "pw";
+    const COLUMN_USERNAME = "username";
+    const COLUMN_USERGROUP = "usrgroup";
     const COLUMN_REG_DATE = "reg_Date";
     const COLUMN_TITEL = "titel";
     const COLUMN_DESCRIPTION ="description";
@@ -111,6 +113,20 @@ class dbAdapter {
         return $user;
     }
 
+    /**
+     * @param $username string
+     * @return tbuser
+     */
+    function getUserByUsername($username){
+        $user = new tbuser();
+        $sql = "Select * FROM ".self::TABLE_USER." WHERE ".self::COLUMN_USERNAME." = ".$username;
+        $result = $this->conn->query($sql);
+        if($result->num_rows>0) {
+            $user = $this->execQuerySingleResult($result, tbuser::class);
+        }
+        return $user;
+    }
+
     /** @var tblog $tblog
      * @return integer $insertID
      */
@@ -164,7 +180,8 @@ class dbAdapter {
     function updateUser($tbuser){
         $sql = "UPDATE ".self::TABLE_USER." SET ".self::COLUMN_FIRSTNAME." ='".$tbuser->firstname."', "
             .self::COLUMN_LASTNAME."='".$tbuser->lastname."', ".self::COLUMN_EMAIL."='".$tbuser->email."', "
-            .self::COLUMN_PW."='".$tbuser->pw."', ".self::COLUMN_REG_DATE."='".$tbuser->reg_Date."' WHERE "
+            .self::COLUMN_PW."='".$tbuser->pw."', ".self::COLUMN_USERNAME."='".$tbuser->username."', "
+            .self::COLUMN_USERGROUP."=".$tbuser->usrgroup.", ".self::COLUMN_REG_DATE."='".$tbuser->reg_Date."' WHERE "
             .self::COLUMN_ID."=".$tbuser->id;
         return $this->conn->query($sql);
     }
