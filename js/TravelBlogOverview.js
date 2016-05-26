@@ -38,7 +38,7 @@ $(document).ready(function(){
     $("#blogTable").on('click',  function (event) {
         var split_array = $(event.target).attr("id").split("_");
         var id = split_array[split_array.length-1];
-        alert($(event.target).attr("id"));
+        //alert($(event.target).attr("id"));
         if($(event.target).attr("id").contains("deleteButton_")) {
             $("#deleteDialog").data("id", id).dialog('open');
             return false;
@@ -52,7 +52,6 @@ $(document).ready(function(){
 
 
     $("#dialogYes").click(function (event) {
-        alert("delete!");
         deleteBlog($("#deleteDialog").data("id"));
     });
 
@@ -80,7 +79,6 @@ $(document).ready(function(){
                     $("#blogTable tbody").empty();
                     $("#blogTable tbody").append('<tr class="child"><td>Titel</td><td >Ziel</td><td >Kurzbeschreibung</td><td>Startdatum</td><td> </td><td> </td></tr>');
                     var blogs = [];
-                    alert (result);
                     var response = JSON.parse(result);
                     for (var i=0; i<response.length;i++){
                         //alert("fill table entries");
@@ -117,7 +115,6 @@ $(document).ready(function(){
                     alert(jqXHR.status);
                 },
                 success:function (result) {
-                    alert("success");
                     $("#deleteDialog").dialog('close');
                     loadblog();
                 }

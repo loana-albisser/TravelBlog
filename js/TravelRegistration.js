@@ -53,15 +53,6 @@ $(document).ready(function(){
             $("#continue").show();
             $("#updateBlog").hide();
         }
-        /*if (last_segment == "TravelBlogOverview.html"){
-            blogReg.insertBlogValues(localStorage.getItem("selectedBlog"));
-            alert(localStorage.getItem("selectedBlog"));
-            $("#continue").hide();
-            $("#updateBlog").show();
-        } else {
-            $("#continue").show();
-            $("#updateBlog").hide();
-        }*/
     };
 
     $("#continue").click(function() {
@@ -113,7 +104,7 @@ $(document).ready(function(){
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',
-                data: {id:"updateBlog", blogid:id},
+                data: {id:"updateBlog", blogid:id,title:$("#titleBlogRegistration").val(),description:$("#shortBlogDescription").val(),destination:$("#blogdestination").val(),startdate:$("#blogStartdate").val()},
                 error: function (jqXHR, exception) {
                     alert(jqXHR.status);
                 },
@@ -124,6 +115,7 @@ $(document).ready(function(){
                 }
             });
         },
+
         insertBlogValues: function(id){
             $.ajax({
                 type: 'post',
@@ -135,7 +127,6 @@ $(document).ready(function(){
                 success:function (result) {
                     var response = JSON.parse(result);
                     alert(result);
-                    //alert(result.toString());
                     $("#titleBlogRegistration").val(response['titel']);
                     $("#shortBlogDescription").val(response['description']);
                     $("#blogdestination").val(response['destination']);

@@ -54,8 +54,11 @@ include 'dbAdapter.php';
         case 'updateBlog':
             $dbAdapter = new dbAdapter();
             $dbAdapter->connect();
-            $blogId = $_POST["blogid"];
-            $tblog = $dbAdapter -> getBlogByID($blogId);
+            $tblog -> id = $_POST['blogid'];
+            $tblog ->titel = $_POST['title'];
+            $tblog ->description= $_POST['description'];
+            $tblog ->destination= $_POST['destination'];
+            $tblog ->startdate = $_POST['startdate'];
             $insertID = $dbAdapter->updateBlog($tblog);
             $dbAdapter->disconnect();
             break;
@@ -86,11 +89,14 @@ include 'dbAdapter.php';
             $dbAdapter->disconnect();
             break;
         case  'updateBlogEntry':
+            $tblogentry ->id = $_POST['blogEntryId'];
+            $tblogentry ->blogid= $_POST['blogid'];            
+            $tblogentry ->titel= $_POST['title'];
+            $tblogentry ->picture= $_POST['picture'];
+            $tblogentry ->description = $_POST['description'];
+            $tblogentry ->createdate = $_POST['createdate'];
             $dbAdapter = new dbAdapter();
             $dbAdapter->connect();
-            $blogEntryId = $_POST["blogEntryId"];
-            $tblogEntry = $dbAdapter->getBlogEntryByID($blogEntryId);
-
             $insertID = $dbAdapter->updateBlogEntry($tblogEntry);
             $dbAdapter->disconnect();
             break;
