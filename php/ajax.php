@@ -37,6 +37,13 @@ include 'dbAdapter.php';
             $insertID = $dbAdapter->getBlogByID($blogId);
             $dbAdapter->disconnect();
             break;
+        case 'getBlogEntryByID':
+            $dbAdapter = new dbAdapter();
+            $dbAdapter->connect();
+            $blogId = $_POST['blogEntryId'];
+            $insertID = $dbAdapter->getBlogByID($blogId);
+            $dbAdapter->disconnect();
+            break;
         case 'deleteBlog':
             $dbAdapter = new dbAdapter();
             $dbAdapter->connect();
