@@ -3,20 +3,50 @@
  * Created by Loana on 21.04.2016.
  */
 
-$(document).ready(function(){    
+$(document).ready(function(){
+
+    window.onload = function () {
+        var segment_str = document.referrer;
+        var segment_array = segment_str.split( '/' );
+        var last_segment = segment_array[segment_array.length - 1];
+        alert(last_segment);
+        if (localStorage.getItem("selectedBlog")!=-1){
+            blogReg.insertBlogValues(localStorage.getItem("selectedBlog"));
+            alert(localStorage.getItem("selectedBlog"));
+            $("#continue").hide();
+            $("#updateBlog").show();
+        } else {
+            $("#continue").show();
+            $("#updateBlog").hide();
+        }
+        /*if (last_segment == "TravelBlogOverview.html"){
+            blogReg.insertBlogValues(localStorage.getItem("selectedBlog"));
+            alert(localStorage.getItem("selectedBlog"));
+            $("#continue").hide();
+            $("#updateBlog").show();
+        } else {
+            $("#continue").show();
+            $("#updateBlog").hide();
+        }*/
+    }
 
     $("#continue").click(function() {
         blogReg.saveBlog();
     });
 
+    $("#updateBlog").click(function() {
+       blogReg.updateBlog(localStorage.getItem("selectedBlog"));
+    });
+
     var blogReg = {
         saveBlog: function () {
-            alert($("#titleBlogRegistration").val()+$("#shortDescription").val()+$("#destination").val()+$("#startdate").val());
+            //alert($("#titleBlogRegistration").val()+$("#shortBlogDescription").val()+$("#blogdestination").val()+$("#blogStartdate").val());
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',
-                data: {id:"insertBlog",title:$("#titleBlogRegistration").val(),description:$("#shortDescription").val(),destination:$("#destination").val(),startdate:$("#startdate").val()},
+                data: {id:"insertBlog",title:$("#titleBlogRegistration").val(),description:$("#shortBlogDescription").val(),destination:$("#blogdestination").val(),startdate:$("#blogStartdate").val()},
                 error: function (jqXHR, exception) {
+                    alert("Error");
                     var msg = '';
                     if (jqXHR.status === 0) {
                         msg = 'Not connect.\n Verify Network.';
@@ -36,13 +66,51 @@ $(document).ready(function(){
                     alert(msg);
                 },
                 success:function (result) {
-                    alert(result.toString());
+                    var response = JSON.parse(result);
+                    localStorage.setItem("registeredBlog",response);
+                    alert(response);
+                    //alert(saved);
                     document.location.assign("TravelEntryRegistration.html");
+                }
+             });
+        },
+
+        updateBlog: function(id){
+            $.ajax({
+                type: 'post',
+                url: '../php/ajax.php',
+                data: {id:"updateBlog", blogid:id},
+                error: function (jqXHR, exception) {
+                    alert(jqXHR.status);
+                },
+                success:function (result) {
+                    alert("updated Blog: "+ localStorage.getItem("selectedBlog"));
+                    document.location.assign("TravelBlogOverview.html");
 
                 }
+            });
+        },
 
 
-             });
+        insertBlogValues: function(id){
+            $.ajax({
+                type: 'post',
+                url: '../php/ajax.php',
+                data: {id:"getBlogById", blogId:id},
+                error: function (jqXHR, exception) {
+                    alert(jqXHR.status);
+                },
+                success:function (result) {
+                    var response = JSON.parse(result);
+                    alert(result);
+                    //alert(result.toString());
+                    $("#titleBlogRegistration").val(response['titel']);
+                    $("#shortBlogDescription").val(response['description']);
+                    $("#blogdestination").val(response['destination']);
+                    $("#blogStartdate").val(response['startdate'])
+
+                }
+            });
         }
     }
 });

@@ -53,8 +53,8 @@ include 'dbAdapter.php';
             $dbAdapter->disconnect();
             break;
         case 'insertBlogEntry':
-            $tblogentry = new tblogentry();
-            $tblogentry ->blogid = $_POST['blogid'];
+            $tblogentry = new tblogentry();   
+            $tblogentry ->blogid=$_POST['blogId'];
             $tblogentry ->titel= $_POST['title'];
             $tblogentry ->picture= $_POST['picture'];
             $tblogentry ->description = $_POST['description'];
@@ -67,20 +67,8 @@ include 'dbAdapter.php';
         case 'getBlogEntries':
             $dbAdapter = new dbAdapter();
             $dbAdapter->connect();
-            $blogId = $_POST["blogId"];
-            $tblogentry = new tblogentry();
-            $tblogentry ->blogid = 1;
-            $tblogentry ->titel= "einTitel";
-            $tblogentry ->description = "Eine Beschreibung";
-            $tblogentry ->createdate = "12.12.2016";
-            $tblogentry2 = new tblogentry();
-            $tblogentry2 ->blogid = 1;
-            $tblogentry2 ->titel= "einTitel2";
-            $tblogentry2 ->description = "Eine Beschreibung2";
-            $tblogentry2 ->createdate = "14.12.2016";
-            $allBlog[0] = $tblogentry;
-            $allBlog[1] = $tblogentry;
-            $insertID = $allBlog;//$dbAdapter->getAllBlogEntryByBlogID($blogId);
+            $blogId = $_POST['blogId'];
+            $insertID = $dbAdapter->getAllBlogEntryByBlogID($blogId);
             $dbAdapter->disconnect();
             break;
         case  'deleteBlogEntries':
@@ -104,4 +92,5 @@ include 'dbAdapter.php';
 //echo print_r($_POST);
 //echo print_r($insertID);
 echo json_encode($insertID);
+
 ?>
