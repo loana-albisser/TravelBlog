@@ -42,7 +42,7 @@ $(document).ready(function(){
         var split_array = $(event.target).attr("id").split("_");
         var id = split_array[split_array.length-1];
         //alert ($(event.target).attr("id"));
-        alert(("#travelEntry").data('id'));
+        //alert(("#travelEntry").data('id'));
         /*if($(event.target).attr("id").contains("deleteButton_")) {
             $("#deleteDialog").data("id", id).dialog('open');
             return false;
