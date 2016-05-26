@@ -11,7 +11,7 @@ include 'dbAdapter.php';
     $response = $_POST['id'];
 
     //$insertID = -1;
-    $insertID = array();
+    //$insertID = array();
     switch ($response){
         case 'insertBlog':
             $tblog = new tblog();
@@ -54,7 +54,7 @@ include 'dbAdapter.php';
             break;
         case 'insertBlogEntry':
             $tblogentry = new tblogentry();   
-            $tblogentry ->blogid=$_POST['blogId'];
+            $tblogentry ->blogid= $_POST['blogId'];
             $tblogentry ->titel= $_POST['title'];
             $tblogentry ->picture= $_POST['picture'];
             $tblogentry ->description = $_POST['description'];
