@@ -4,18 +4,7 @@
  */
 
 $(document).ready(function(){
-    var segment_str = document.referrer;
-    var segment_array = segment_str.split( '/' );
-    var last_segment = segment_array[segment_array.length - 1];
-    alert(last_segment);
-    if (localStorage.getItem("selectedBlog")!=-1){
-        blogReg.insertBlogValues(localStorage.getItem("selectedBlog"));
-        alert(localStorage.getItem("selectedBlog"));
-        $("#continue").hide();
-        $("#updateBlog").show();
-    } else {
-        $("#continue").show();
-        $("#updateBlog").hide();
+
     $.ajax({
         type: 'post',
         url: '../php/ajax.php',
@@ -41,14 +30,13 @@ $(document).ready(function(){
         },
         success:function (result) {
             if(result.toString()=="false"){
-                document.location.assign("TravelBlogOverview.html");
+                alert("Du musst eingeloggt sein");
+               // document.location.assign("TravelBlogOverview.html");
             }
 
 
 
         }
-
-
     });
 
     window.onload = function () {
@@ -74,7 +62,7 @@ $(document).ready(function(){
             $("#continue").show();
             $("#updateBlog").hide();
         }*/
-    }
+    };
 
     $("#continue").click(function() {
         blogReg.saveBlog();
@@ -136,8 +124,6 @@ $(document).ready(function(){
                 }
             });
         },
-
-
         insertBlogValues: function(id){
             $.ajax({
                 type: 'post',
@@ -159,7 +145,4 @@ $(document).ready(function(){
             });
         }
     }
-}
-
-
-
+});
