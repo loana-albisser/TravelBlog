@@ -12,6 +12,8 @@ class tbuser {
     var $lastname;
     var $email;
     var $pw;
+    var $username;
+    var $usrgroup;
     var $reg_Date;
 
     
