@@ -30,8 +30,12 @@ $(document).ready(function(){
         },
         success:function (result) {
             if(result.toString()=="false"){
-                document.location.assign("TravelBlogOverview.html");
+                alert("Du musst eingeloggt sein");
+               // document.location.assign("TravelBlogOverview.html");
             }
+
+
+
         }
     });
 
@@ -58,7 +62,7 @@ $(document).ready(function(){
             $("#continue").show();
             $("#updateBlog").hide();
         }*/
-    }
+    };
 
     $("#continue").click(function() {
         blogReg.saveBlog();
@@ -120,7 +124,6 @@ $(document).ready(function(){
                 }
             });
         },
-
         insertBlogValues: function(id){
             $.ajax({
                 type: 'post',
@@ -142,7 +145,4 @@ $(document).ready(function(){
             });
         }
     }
-}
-
-
-
+});

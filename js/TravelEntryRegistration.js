@@ -59,7 +59,7 @@ $(document).ready(function(){
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',
-                data: {id:"insertBlogEntry", blogid:$blogId,title:$("#titleEntryRegistration").val(),createdate:$("#dateEntryRegistration").val(),picture:$("#photoEntryRegistration").val(),description:$("#descriptionEntryRegistration").val()},
+                data: {id:"insertBlogEntry", blogid:id,title:$("#titleEntryRegistration").val(),createdate:$("#dateEntryRegistration").val(),picture:$("#photoEntryRegistration").val(),description:$("#descriptionEntryRegistration").val()},
                 error: function (jqXHR, exception) {
                     alert("Error: "+jqXHR.status);
                 },
@@ -80,6 +80,7 @@ $(document).ready(function(){
         },
 
         loadBlogEntry: function (id) {
+
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',
