@@ -17,7 +17,6 @@ $(document).ready(function(){
         if ($last_segment == "TravelBlogEntry.html"){
             $blogId = localStorage.getItem("Blog");
             $blogEntryId = localStorage.getItem("blogEntryId");
-            //alert($blogEntryId);
             if (localStorage.getItem("added")==0){
                 blogEntryReg.loadBlogEntry($blogEntryId);
             }
