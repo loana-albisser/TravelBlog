@@ -8,6 +8,39 @@ $(document).ready(function(){
     var $last_segment;
     var $statement;
 
+    $.ajax({
+        type: 'post',
+        url: '../php/ajax.php',
+        data: {id:"auth",reqgroup:1},
+        error: function (jqXHR, exception) {
+            var msg = '';
+            if (jqXHR.status === 0) {
+                msg = 'Not connect.\n Verify Network.';
+            } else if (jqXHR.status == 404) {
+                msg = 'Requested page not found. [404]';
+            } else if (jqXHR.status == 500) {
+                msg = 'Internal Server Error [500].';
+            } else if (exception === 'parsererror') {
+                msg = 'Requested JSON parse failed.';
+            } else if (exception === 'timeout') {
+                msg = 'Time out error.';
+            } else if (exception === 'abort') {
+                msg = 'Ajax request aborted.';
+            } else {
+                msg = 'Uncaught Error.\n' + jqXHR.responseText;
+            }
+            alert(msg);
+        },
+        success:function (result) {
+            if(result.toString()=="false"){
+                alert("Du musst eingeloggt sein oder hast keine Berechtigung.");
+                document.location.assign("TravelBlogOverview.html");
+            }
+
+
+
+        }
+    });
 
     window.onload = function () {
         var segment_str = document.referrer;

@@ -1,3 +1,3 @@
 <?php
 
-readfile("html/TravelBlogOverview.html");
+header("Location: html/TravelBlogOverview.html");

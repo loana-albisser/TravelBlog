@@ -121,7 +121,7 @@ class dbAdapter {
      */
     function getUserByUsername($username){
         $user = new tbuser();
-        $sql = "Select * FROM ".self::TABLE_USER." WHERE ".self::COLUMN_USERNAME." = ".$username;
+        $sql = "Select * FROM ".self::TABLE_USER." WHERE ".self::COLUMN_USERNAME." = '".$username."'";
         $result = $this->conn->query($sql);
         if($result->num_rows>0) {
             $user = $this->execQuerySingleResult($result, tbuser::class);

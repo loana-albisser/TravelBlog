@@ -2,11 +2,45 @@
  * Created by Loana on 21.04.2016.
  */
 $(document).ready(function(){
-    var loggedIn= true;
+    var loggedIn=false;
+
+
+
 
     window.onload = function () {
-        loadblog();
-    }
+        $.ajax({
+            type: 'post',
+            url: '../php/ajax.php',
+            data: {id:"auth",reqgroup:-1},
+            error: function (jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                alert(msg);
+            },
+            success:function (result) {
+                alert("auth");
+                loggedIn = result;
+                setLoggedInStatus();
+                loadblog();
+            }
+        });
+
+
+    };
 
 
     $("#deleteDialog").dialog({
@@ -15,7 +49,11 @@ $(document).ready(function(){
 
     $("#deleteButton").click(
         function () {
-            $("#deleteDialog").dialog('open');
+            if(loggedIn) {
+                $("#deleteDialog").dialog('open');
+            }else{
+                alert("Sie müssen eingeloggt sein!");
+            }
             return false;
         }
     );
@@ -33,21 +71,85 @@ $(document).ready(function(){
         }
     );
 
+    $("#logout").click( function () {
+        $.ajax({
+            type: 'post',
+            url: '../php/ajax.php',
+            data: {id:"logout"},
+            error: function (jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                alert(msg);
+            },
+            success:function (result) {
+                loggedIn = false;
+                setLoggedInStatus();
+            }
+        });
+    });
 
+    $("#loginOk").click(function (event) {
+        event.preventDefault();
+        $.ajax({
+            type: 'post',
+            url: '../php/ajax.php',
+            data: {id:"login",username:$("#username").val(),pw:$.md5($("#password").val()),reqgroup:-1},
+            error: function (jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                alert(msg);
+            },
+            success:function (result) {
+                loggedIn = result;
+                setLoggedInStatus();
+            }
+        });
+    });
    
     $("#blogTable").on('click',  function (event) {
-        var split_array = $(event.target).attr("id").split("_");
-        var id = split_array[split_array.length-1];
-        //alert($(event.target).attr("id"));
-        if($(event.target).attr("id").contains("deleteButton_")) {
-            $("#deleteDialog").data("id", id).dialog('open');
-            return false;
-        } else if ($(event.target).attr("id").contains("editButton_")){
-            updateBlog();
-        } else if ($(event.target).attr("id").contains("title_")||$(event.target).attr("id").contains("destination_")||$(event.target).attr("id").contains("startDate_")){
-            document.location.assign("TravelBlogEntry.html");
+        if(loggedIn) {
+            var split_array = $(event.target).attr("id").split("_");
+            var id = split_array[split_array.length - 1];
+            if ($(event.target).attr("id").contains("deleteButton_")) {
+                $("#deleteDialog").data("id", id).dialog('open');
+                return false;
+            } else if ($(event.target).attr("id").contains("editButton_")) {
+                updateBlog();
+            } else if ($(event.target).attr("id").contains("title_") || $(event.target).attr("id").contains("destination_") || $(event.target).attr("id").contains("startDate_")) {
+                document.location.assign("TravelBlogEntry.html");
+            }
+            localStorage.setItem("selectedBlog", id);
+        }else{
+            alert("Sie müssen eingeloggt sein!");
         }
-        localStorage.setItem("selectedBlog",id);
     });
 
 
@@ -59,12 +161,17 @@ $(document).ready(function(){
         $("#deleteDialog").dialog('close');
     });
 
-    if (loggedIn){
-        $("#logout").hide();
-    } else {
-        //$("#editButton").hide();
-        //$("#deleteButton").hide();
-        //$("#addBlogg").hide();
+    function setLoggedInStatus(){
+        alert(loggedIn);
+        if (loggedIn==true){
+            $("#logout").show();
+            $("#login").hide();
+
+        } else {
+            $("#logout").hide();
+            $("#login").show();
+        }
+
     }
 
         function loadblog  () {
@@ -102,7 +209,6 @@ $(document).ready(function(){
         }
 
     function updateBlog () {
-            alert("update!");
             document.location.assign("TravelRegistration.html");
         }
 

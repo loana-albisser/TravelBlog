@@ -8,7 +8,7 @@ $(document).ready(function(){
     $.ajax({
         type: 'post',
         url: '../php/ajax.php',
-        data: {id:"auth",reqgroup:-1},
+        data: {id:"auth",reqgroup:1},
         error: function (jqXHR, exception) {
             var msg = '';
             if (jqXHR.status === 0) {
@@ -30,8 +30,8 @@ $(document).ready(function(){
         },
         success:function (result) {
             if(result.toString()=="false"){
-                alert("Du musst eingeloggt sein");
-               // document.location.assign("TravelBlogOverview.html");
+                alert(" musst eingeloggt sein oder hast keine Berechtigung.");
+                document.location.assign("TravelBlogOverview.html");
             }
 
 

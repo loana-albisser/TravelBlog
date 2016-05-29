@@ -127,20 +127,21 @@ include 'dbAdapter.php';
             break;
         case 'auth':
             session_start();
-            if (
-                ( ! ( isset($_SESSION['username']) && $_SESSION['username']) )
-                or ( isset($_SESSION['ip']) &&  ! $_SESSION['ip'] == $_SERVER['REMOTE_ADDR'] )
-            ) {
+            session_regenerate_id();
+            if(!isset($_SESSION['username'])){
                 $insertID = false;
-            } else{
-                $reqgroup = $_POST["reqgroup"];
-                if($reqgroup ==-1 OR $reqgroup = $_SESSION['groups']){
+            }else{
+                $reqgroup = $_POST['reqgroup'];
+                if($reqgroup ==-1 || $_SESSION['reqgroup']){
                     $insertID = true;
+                }else{
+                    $insertID = false;
                 }
             }
             break;
         case 'logout':
             session_start();
+            unset($_SESSION['username']);
             session_destroy();
             $insertID = true;
             break;
