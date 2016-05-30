@@ -32,7 +32,7 @@ $(document).ready(function(){
                 alert(msg);
             },
             success:function (result) {
-                alert("auth");
+                //alert("auth");
                 loggedIn = result;
                 setLoggedInStatus();
                 loadblog();
@@ -162,7 +162,7 @@ $(document).ready(function(){
     });
 
     function setLoggedInStatus(){
-        alert(loggedIn);
+        //alert(loggedIn);
         if (loggedIn==true){
             $("#logout").show();
             $("#login").hide();

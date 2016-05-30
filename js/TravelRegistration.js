@@ -5,48 +5,80 @@
 
 $(document).ready(function(){
 
-    $.ajax({
-        type: 'post',
-        url: '../php/ajax.php',
-        data: {id:"auth",reqgroup:1},
-        error: function (jqXHR, exception) {
-            var msg = '';
-            if (jqXHR.status === 0) {
-                msg = 'Not connect.\n Verify Network.';
-            } else if (jqXHR.status == 404) {
-                msg = 'Requested page not found. [404]';
-            } else if (jqXHR.status == 500) {
-                msg = 'Internal Server Error [500].';
-            } else if (exception === 'parsererror') {
-                msg = 'Requested JSON parse failed.';
-            } else if (exception === 'timeout') {
-                msg = 'Time out error.';
-            } else if (exception === 'abort') {
-                msg = 'Ajax request aborted.';
-            } else {
-                msg = 'Uncaught Error.\n' + jqXHR.responseText;
-            }
-            alert(msg);
-        },
-        success:function (result) {
-            if(result.toString()=="false"){
-                alert(" musst eingeloggt sein oder hast keine Berechtigung.");
+
+
+    $("#logout").click( function () {
+        $.ajax({
+            type: 'post',
+            url: '../php/ajax.php',
+            data: {id:"logout"},
+            error: function (jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                alert(msg);
+            },
+            success:function (result) {
                 document.location.assign("TravelBlogOverview.html");
             }
-
-
-
-        }
+        });
     });
 
     window.onload = function () {
+        $.ajax({
+            type: 'post',
+            url: '../php/ajax.php',
+            data: {id:"auth",reqgroup:1},
+            error: function (jqXHR, exception) {
+                var msg = '';
+                if (jqXHR.status === 0) {
+                    msg = 'Not connect.\n Verify Network.';
+                } else if (jqXHR.status == 404) {
+                    msg = 'Requested page not found. [404]';
+                } else if (jqXHR.status == 500) {
+                    msg = 'Internal Server Error [500].';
+                } else if (exception === 'parsererror') {
+                    msg = 'Requested JSON parse failed.';
+                } else if (exception === 'timeout') {
+                    msg = 'Time out error.';
+                } else if (exception === 'abort') {
+                    msg = 'Ajax request aborted.';
+                } else {
+                    msg = 'Uncaught Error.\n' + jqXHR.responseText;
+                }
+                alert(msg);
+            },
+            success:function (result) {
+                if(result.toString()=="false"){
+                    alert(" musst eingeloggt sein oder hast keine Berechtigung.");
+                    document.location.assign("TravelBlogOverview.html");
+                }
+
+
+
+            }
+        });
+
         var segment_str = document.referrer;
         var segment_array = segment_str.split( '/' );
         var last_segment = segment_array[segment_array.length - 1];
-        alert(last_segment);
+        //alert(last_segment);
         if (localStorage.getItem("selectedBlog")!=-1){
             blogReg.insertBlogValues(localStorage.getItem("selectedBlog"));
-            alert(localStorage.getItem("selectedBlog"));
+            //alert(localStorage.getItem("selectedBlog"));
             $("#continue").hide();
             $("#updateBlog").show();
         } else {
@@ -71,7 +103,7 @@ $(document).ready(function(){
                 url: '../php/ajax.php',
                 data: {id:"insertBlog",title:$("#titleBlogRegistration").val(),description:$("#shortBlogDescription").val(),destination:$("#blogdestination").val(),startdate:$("#blogStartdate").val()},
                 error: function (jqXHR, exception) {
-                    alert("Error");
+                    //alert("Error");
                     var msg = '';
                     if (jqXHR.status === 0) {
                         msg = 'Not connect.\n Verify Network.';
@@ -93,7 +125,7 @@ $(document).ready(function(){
                 success:function (result) {
                     var response = JSON.parse(result);
                     localStorage.setItem("registeredBlog",response);
-                    alert(response);
+                    //alert(response);
                     //alert(saved);
                     document.location.assign("TravelEntryRegistration.html");
                 }

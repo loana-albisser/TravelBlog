@@ -46,7 +46,7 @@ $(document).ready(function(){
         var segment_str = document.referrer;
         var segment_array = segment_str.split( '/' );
         $last_segment = segment_array[segment_array.length - 1];
-        alert($last_segment);
+        //alert($last_segment);
         if ($last_segment == "TravelBlogEntry.html"){
             $blogId = localStorage.getItem("Blog");
             $blogEntryId = localStorage.getItem("blogEntryId");
@@ -80,8 +80,8 @@ $(document).ready(function(){
             if (localStorage.getItem("added")==1){
                 blogEntryReg.saveBlogEntry($blogId);
             } else {
-                alert("BlogEntry:"+$blogEntryId);
-                alert("Blog:"+$blogId);
+                //alert("BlogEntry:"+$blogEntryId);
+                //alert("Blog:"+$blogId);
                 blogEntryReg.updateBlog($blogEntryId,$blogId);
             }
         }
@@ -106,10 +106,10 @@ $(document).ready(function(){
                 },
                 success:function (result) {
                     if ($statement == "save"){
-                        alert("saved: "+result);
+                        //alert("saved: "+result);
                         document.location.assign("TravelBlogEntry.html");
                     } else if ($statement == "next"){
-                        alert("next: "+result);
+                        //alert("next: "+result);
                         $("#entryForm").reset();
 
                     }
@@ -118,7 +118,7 @@ $(document).ready(function(){
         },
 
         loadBlogEntry: function (id) {
-            alert("load:"+id);
+            //("load:"+id);
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',
@@ -127,7 +127,7 @@ $(document).ready(function(){
                     alert(jqXHR.status);
                 },
                 success:function (result) {
-                    alert(result);
+                    //alert(result);
                     var response = JSON.parse(result);
                     $("#titleEntryRegistration").val(response['titel']);
                     $("#dateEntryRegistration").val(response['createdate']);
@@ -139,7 +139,7 @@ $(document).ready(function(){
         },
 
         updateBlog: function(entryId, id){
-            alert($blogEntryId+" "+$blogId+" "+$("#titleEntryRegistration").val()+" "+$("#dateEntryRegistration").val()+" "+$("#photoEntryRegistration").val()+" "+$("#descriptionEntryRegistration").val());
+            //alert($blogEntryId+" "+$blogId+" "+$("#titleEntryRegistration").val()+" "+$("#dateEntryRegistration").val()+" "+$("#photoEntryRegistration").val()+" "+$("#descriptionEntryRegistration").val());
             $.ajax({
                 type: 'post',
                 url: '../php/ajax.php',

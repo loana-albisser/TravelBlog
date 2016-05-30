@@ -42,10 +42,10 @@ $(document).ready(function(){
         var segment_str = document.referrer;
         var segment_array = segment_str.split( '/' );
         var last_segment = segment_array[segment_array.length - 1];
-        alert(last_segment);
+        //alert(last_segment);
         if (last_segment=="TravelEntryRegistration.html"){
             $blogId = localStorage.getItem("registeredBlog");
-            alert(localStorage.getItem("registeredBlog"));
+            //alert(localStorage.getItem("registeredBlog"));
             blogEntry.loadBlogEntries($blogId);
         } else if (last_segment=="TravelBlogOverview.html"){
             $blogId = localStorage.getItem("selectedBlog");
@@ -139,7 +139,7 @@ $(document).ready(function(){
         },
         
         deleteBlogEntry: function(id){
-            alert("deleted");
+            //alert("deleted");
             $.ajax({
                  type: 'post',
                  url: '../php/ajax.php',
